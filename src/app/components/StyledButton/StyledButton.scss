@@ -1,0 +1,13 @@
+.btn {
+  height: 2rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background-color: #0bf4f3;
+  box-shadow: 0 0 5px #0bf4f3;
+  transition: all 0.3s ease;
+  border-radius: 0.25rem;
+
+  &:hover {
+    box-shadow: 0 0 10px #0bf4f3, 0 0 20px #0bf4f3, 0 0 20px #0bf4f3 inset;
+  }
+}

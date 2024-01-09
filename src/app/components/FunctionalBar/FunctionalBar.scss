@@ -1,0 +1,35 @@
+.container-func {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .input-todo {
+    outline: none;
+    width: 100%;
+    padding: 1rem;
+    border: 0;
+    box-sizing: border-box;
+    border: 1px solid #0bf4f3;
+    border-radius: 2rem;
+    transition: 0.3s ease all;
+
+    &:hover, &:focus {
+
+      box-shadow: 0 0 10px #0bf4f3, 0 0 20px #0bf4f3, 0 0 20px #0bf4f3 inset;
+    }
+  }
+
+  .btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    button {
+      width: 100%;
+    }
+  }
+}
