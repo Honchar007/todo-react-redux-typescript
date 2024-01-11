@@ -8,11 +8,18 @@ type Props = {
   onClick: React.MouseEventHandler<HTMLButtonElement>
   name: String,
   style?: React.CSSProperties,
+  disabled?: boolean,
 };
 
-function StyledButton ({ onClick, name, style } : Props) {
+function StyledButton ({ onClick, name, style, disabled } : Props) {
+  console.log(name + ' ' +disabled);
   return (
-    <button className='btn' onClick={onClick} style={style}>
+    <button
+      className='btn'
+      onClick={onClick}
+      style={{ ...style, opacity: disabled ? 0.5 : 1 }}
+      disabled={disabled}
+    >
       {name}
     </button>
    );

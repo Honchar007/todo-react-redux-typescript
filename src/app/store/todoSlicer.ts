@@ -45,6 +45,7 @@ const todoSlicer = createSlice({
     editModeOn(state, action: PayloadAction<toDo>) {
       state.edit.editMode = true;
       state.edit.curr = action.payload;
+      console.log(action.payload)
     }
   },
   extraReducers: builder => {
@@ -88,6 +89,8 @@ const todoSlicer = createSlice({
 
 export const selectTodos = (state: MainState) => state.todos;
 export const selectLoading = (state: MainState) => state.loading;
+export const selectEditMode = (state: MainState) => state.edit.editMode;
+
 export const { editModeOn } = todoSlicer.actions;
 
 export default todoSlicer.reducer;
