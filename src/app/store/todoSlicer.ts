@@ -7,16 +7,26 @@ interface MainState {
   todos: toDo[],
   loading: Boolean,
   edit: {
-    curr: toDo | {},
+    curr: toDo,
     editMode: Boolean,
   }
+}
+
+interface updatedTodo {
+  name: String,
+  description: String,
 }
 
 const initialState: MainState = {
   todos: [],
   loading: false,
   edit: {
-    curr: {},
+    curr: {
+      id: '',
+      checked: false,
+      name: '',
+      description: '',
+    },
     editMode: false,
   }
 };
@@ -29,7 +39,7 @@ export const addTodo = createAsyncThunk('add/todo', async (todo: toDo) => {
   return todo;
 });
 
-export const updateTodo = createAsyncThunk('update/todo', async (todo: toDo) => {
+export const updateTodo = createAsyncThunk('update/todo', async (todo: updatedTodo) => {
   return todo;
 });
 
@@ -65,10 +75,9 @@ const todoSlicer = createSlice({
       state.loading = true;
     });
     builder.addCase(updateTodo.fulfilled, (state, action) => {
-      const updatedTodo = state.todos.find((el) => el.id === action.payload.id)
+      const updatedTodo = state.todos.find((el) => el.id === state.edit.curr.id)
 
       if (updatedTodo) {
-        updatedTodo.checked = action.payload.checked;
         updatedTodo.name = action.payload.name;
         updatedTodo.description = action.payload.description;
         updatedTodo.date = new Date().toISOString();

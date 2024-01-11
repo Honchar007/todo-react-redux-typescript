@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 // store
 import { useAppDispatch } from '../../store/hooks';
-import { addTodo, fetchTodos, selectEditMode, selectLoading, selectTodos } from '../../store/todoSlicer';
+import { addTodo, fetchTodos, selectEditMode, selectLoading, selectTodos, updateTodo } from '../../store/todoSlicer';
 
 // components
 import StyledButton from '../StyledButton/StyledButton';
@@ -35,6 +35,19 @@ function FunctionalBar () {
     setDesc('');
   }
 
+  const edit = () => {
+    dispatch(updateTodo(
+      {
+        name: todo,
+        description: desc,
+      }
+    ));
+
+    setTodo('');
+    setDesc('');
+  }
+
+
   useEffect(() => {
     dispatch(fetchTodos());
   },[dispatch]);
@@ -64,7 +77,7 @@ function FunctionalBar () {
           name={loading ? 'Loading...' : 'Add'}
         />
         <StyledButton
-          onClick={add}
+          onClick={edit}
           name='Edit'
           disabled={!isEditMode}
         />
