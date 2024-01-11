@@ -68,4 +68,7 @@ const todoSlicer = createSlice({
   },
 })
 
+export const selectTodos = (state: MainState) => state.todos;
+export const selectLoading = (state: MainState) => state.loading;
+
 export default todoSlicer.reducer;
