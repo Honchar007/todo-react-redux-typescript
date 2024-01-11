@@ -12,7 +12,6 @@ type Props = {
 };
 
 function StyledButton ({ onClick, name, style, disabled } : Props) {
-  console.log(name + ' ' +disabled);
   return (
     <button
       className='btn'
