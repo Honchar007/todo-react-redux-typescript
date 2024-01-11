@@ -32,7 +32,7 @@ function TodoItem ({ id, checked, name, description, date }: toDo) {
   }
 
   return (
-    <div className="todo-wrapper">
+    <div className="todo-wrapper" style={{ opacity: done ? 0.7 : 1 }}>
       <div className="todo-main">
         <div className="todo-title">{name}</div>
         <label className="switch">
@@ -43,9 +43,9 @@ function TodoItem ({ id, checked, name, description, date }: toDo) {
           />
           <span className="slider round"></span>
         </label>
-        <div className="todo-desc">
-          <strong>Description:</strong> {description} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis nisi ut arcu ultricies tincidunt. Sed nisl magna, vehicula sit amet cursus non, fermentum ut mi.
-        </div>
+        {description && <div className="todo-desc">
+          <strong>Description:</strong> {description}
+        </div>}
         <div className="todo-date">
           {new Date(date as string).toLocaleDateString()}
         </div>
@@ -53,13 +53,11 @@ function TodoItem ({ id, checked, name, description, date }: toDo) {
       <div className="close">
         <div
           onClick={handleEdit}
-          className=""
         >
           <img src={edit} alt="edit" />
         </div>
         <div
           onClick={handleRemove}
-          className=""
         >
           <img src={close} alt="close" />
         </div>
