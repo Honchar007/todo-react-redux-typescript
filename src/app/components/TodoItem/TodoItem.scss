@@ -1,0 +1,116 @@
+.todo-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 3.5rem;
+    max-width: 6rem;
+    height: 34px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    input:checked + .slider {
+      background-color: #8b08b3;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #8b08b3;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(75%);
+      -ms-transform: translateX(75%);
+      transform: translateX(75%);
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 34px;
+
+      &:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        border-radius: 50%;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+    }
+  }
+
+  button {
+    height: 100%;
+    background-color: #eb0a0a;
+    color: #fff;
+    box-shadow: 0 0 5px #eb0a0a;
+
+
+    &:hover {
+      box-shadow: 0 0 10px #eb0a0a, 0 0 20px #e0096d, 0 0 20px #eb0a0e inset;
+    }
+  }
+
+  .todo-main {
+    flex: 1;
+    font-size: 2rem;
+
+    .todo-title {
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .todo-desc {
+      margin-top: 1rem;
+      color: #555;
+      font-size: 1.5rem;
+    }
+
+    .todo-date {
+      color: #888;
+      font-size: 1.5rem;
+    }
+  }
+
+  .close {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+
+    img {
+      width: 2rem;
+      transition: 0.5s;
+      border-radius: 0.25rem;
+
+      &:hover {
+        background: #8b08b3;
+        box-shadow: 0 0 10px #8b08b3, 0 0 20px #8b08b3;
+      }
+    }
+  }
+}

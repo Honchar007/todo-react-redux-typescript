@@ -3,4 +3,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'Roboto', sans-serif; /* Replace 'YourChosenFont' with your preferred font-family */
+  font-size: 2rem; /* Adjust the font size as needed */
+  line-height: 1.6; /* Adjust the line height as needed */
+  color: #333; /* Adjust the text color as needed */
+  background-color: whitesmoke;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
