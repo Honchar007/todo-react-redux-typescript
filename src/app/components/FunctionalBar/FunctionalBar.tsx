@@ -1,15 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
+
+// store
+import { useAppDispatch } from '../../store/hooks';
+import { addTodo, fetchTodos, selectLoading, selectTodos } from '../../store/todoSlicer';
+
+// components
 import StyledButton from '../StyledButton/StyledButton';
+import TodoItem from '../TodoItem/TodoItem';
 
 // styles
 import './FunctionalBar.scss';
-import TodoItem from '../TodoItem/TodoItem';
 
 function FunctionalBar () {
+  const dispatch = useAppDispatch();
+  const loading = useSelector(selectLoading);
+  const todos = useSelector(selectTodos);
+
   const [todo, setTodo] = useState('');
   const [desc, setDesc] = useState('');
+  const add = () => {
+    dispatch(addTodo(
+      {
+        checked: false,
+        id: uuidv4(),
+        name: todo,
+        description: desc,
+      }
+    ));
 
-  const add = () => {}
+    setTodo('');
+    setDesc('');
+  }
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  },[dispatch]);
 
   return (
     <div className='container-func'>
@@ -33,7 +60,7 @@ function FunctionalBar () {
       <div className='btn-wrapper'>
         <StyledButton
           onClick={add}
-          name='Add'
+          name={loading ? 'Loading...' : 'Add'}
         />
         <StyledButton
           onClick={add}
@@ -44,13 +71,15 @@ function FunctionalBar () {
           name='Cancel'
         />
       </div>
+      {todos && todos.map((el) =>
       <TodoItem
-        id={0}
-        checked={true}
-        name='Go to ATB and buy bread'
-        description='Only cutted bread'
-        date={new Date()}
-      />
+        key={el.id as string}
+        id={el.id}
+        checked={el.checked}
+        name={el.name}
+        description={el.description}
+        date={el.date}
+      />)}
     </div>
    );
 }

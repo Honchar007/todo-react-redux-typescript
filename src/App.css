@@ -1,8 +1,4 @@
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   font-family: 'Roboto', sans-serif; /* Replace 'YourChosenFont' with your preferred font-family */
   font-size: 2rem; /* Adjust the font size as needed */
   line-height: 1.6; /* Adjust the line height as needed */

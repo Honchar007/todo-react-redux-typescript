@@ -1,9 +1,9 @@
 interface toDo {
-  id: Number,
+  id: String,
   checked: Boolean,
   name: String,
   description: String,
-  date: Date,
+  date?: String,
 }
 
 export default toDo;

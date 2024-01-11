@@ -9,7 +9,15 @@ interface MainState {
 }
 
 const initialState: MainState = {
-  todos: [],
+  todos: [
+    {
+      name: 'Fuck',
+      description: 'Fuck',
+      date: new Date().toISOString(),
+      id: 'asdasd',
+      checked: false,
+    }
+  ],
   loading: false,
 };
 
@@ -25,8 +33,8 @@ export const updateTodo = createAsyncThunk('update/todo', async (todo: toDo) => 
   return todo;
 });
 
-export const removeTodo = createAsyncThunk('remove/todo', async (todo: toDo) => {
-  return todo;
+export const removeTodo = createAsyncThunk('remove/todo', async (id: string) => {
+  return id;
 });
 
 
@@ -35,11 +43,16 @@ const todoSlicer = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.todos = [...action.payload];
+    });
     builder.addCase(addTodo.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(addTodo.fulfilled, (state, action) => {
-      state.todos.push(action.payload);
+      const newTodo = action.payload;
+      newTodo.date = new Date().toISOString();
+      state.todos = [...state.todos, newTodo];
       state.loading = false;
     });
     builder.addCase(updateTodo.pending, (state, action) => {
@@ -52,7 +65,7 @@ const todoSlicer = createSlice({
         updatedTodo.checked = action.payload.checked;
         updatedTodo.name = action.payload.name;
         updatedTodo.description = action.payload.description;
-        updatedTodo.date = new Date();
+        updatedTodo.date = new Date().toISOString();
       }
 
       state.loading = false;
@@ -61,8 +74,8 @@ const todoSlicer = createSlice({
       state.loading = true;
     });
     builder.addCase(removeTodo.fulfilled, (state, action) => {
-      const newTodos = state.todos.filter((el) => el.id !== action.payload.id);
-      state.todos = newTodos;
+      const newTodos = state.todos.filter((el) => el.id !== action.payload);
+      state.todos = [...newTodos];
       state.loading = false;
     });
   },
