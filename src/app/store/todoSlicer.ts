@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// api
+import sleep from "../api/fake.api";
+
 // models
 import toDo from "../models/todo";
 
@@ -32,22 +35,27 @@ const initialState: MainState = {
 };
 
 export const fetchTodos = createAsyncThunk('fetch/todos', async () => {
+  await sleep(100);
   return [];
 });
 
 export const addTodo = createAsyncThunk('add/todo', async (todo: toDo) => {
+  await sleep(200);
   return todo;
 });
 
 export const updateTodo = createAsyncThunk('update/todo', async (todo: updatedTodo) => {
+  await sleep(1000);
   return todo;
 });
 
 export const removeTodo = createAsyncThunk('remove/todo', async (id: string) => {
+  await sleep(500);
   return id;
 });
 
 export const checkedTodo = createAsyncThunk('checked/todo', async (todo: toDo) => {
+  await sleep(200);
   return todo;
 });
 
@@ -112,10 +120,15 @@ const todoSlicer = createSlice({
       state.todos = [...newTodos];
       state.loading = false;
     });
+    builder.addCase(checkedTodo.pending, (state, action) =>
+    {
+      state.loading = true;
+    });
     builder.addCase(checkedTodo.fulfilled, (state, action) =>
     {
       const updatedTodo = state.todos.find((el) => el.id === state.edit.curr.id)
       if (updatedTodo) updatedTodo.checked = action.payload.checked;
+      state.loading = false;
     });
   },
 })
