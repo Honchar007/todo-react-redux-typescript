@@ -47,6 +47,9 @@ export const removeTodo = createAsyncThunk('remove/todo', async (id: string) => 
   return id;
 });
 
+export const checkedTodo = createAsyncThunk('checked/todo', async (todo: toDo) => {
+  return todo;
+});
 
 const todoSlicer = createSlice({
   name: 'todos',
@@ -56,7 +59,16 @@ const todoSlicer = createSlice({
       state.edit.editMode = true;
       state.edit.curr = action.payload;
       console.log(action.payload)
-    }
+    },
+    clearEdit(state) {
+      state.edit.editMode = false;
+      state.edit.curr = {
+        id: '',
+        checked: false,
+        name: '',
+        description: '',
+      };
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
@@ -83,6 +95,13 @@ const todoSlicer = createSlice({
         updatedTodo.date = new Date().toISOString();
       }
 
+      state.edit.editMode = false;
+      state.edit.curr = {
+        id: '',
+        checked: false,
+        name: '',
+        description: '',
+      };
       state.loading = false;
     });
     builder.addCase(removeTodo.pending, (state, action) => {
@@ -93,13 +112,19 @@ const todoSlicer = createSlice({
       state.todos = [...newTodos];
       state.loading = false;
     });
+    builder.addCase(checkedTodo.fulfilled, (state, action) =>
+    {
+      const updatedTodo = state.todos.find((el) => el.id === state.edit.curr.id)
+      if (updatedTodo) updatedTodo.checked = action.payload.checked;
+    });
   },
 })
 
 export const selectTodos = (state: MainState) => state.todos;
 export const selectLoading = (state: MainState) => state.loading;
 export const selectEditMode = (state: MainState) => state.edit.editMode;
+export const selectCurrEdit = (state: MainState) => state.edit.curr;
 
-export const { editModeOn } = todoSlicer.actions;
+export const { editModeOn, clearEdit } = todoSlicer.actions;
 
 export default todoSlicer.reducer;

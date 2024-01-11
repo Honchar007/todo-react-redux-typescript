@@ -4,7 +4,16 @@ import { useSelector } from 'react-redux';
 
 // store
 import { useAppDispatch } from '../../store/hooks';
-import { addTodo, fetchTodos, selectEditMode, selectLoading, selectTodos, updateTodo } from '../../store/todoSlicer';
+import {
+  addTodo,
+  clearEdit,
+  fetchTodos,
+  selectCurrEdit,
+  selectEditMode,
+  selectLoading,
+  selectTodos,
+  updateTodo
+} from '../../store/todoSlicer';
 
 // components
 import StyledButton from '../StyledButton/StyledButton';
@@ -15,12 +24,15 @@ import './FunctionalBar.scss';
 
 function FunctionalBar () {
   const dispatch = useAppDispatch();
+
   const loading = useSelector(selectLoading);
   const todos = useSelector(selectTodos);
   const isEditMode = useSelector(selectEditMode);
+  const currEditToDo = useSelector(selectCurrEdit)
 
   const [todo, setTodo] = useState('');
   const [desc, setDesc] = useState('');
+
   const add = () => {
     dispatch(addTodo(
       {
@@ -42,11 +54,22 @@ function FunctionalBar () {
         description: desc,
       }
     ));
-
     setTodo('');
     setDesc('');
   }
 
+  const clear = () => {
+    dispatch(clearEdit());
+    setTodo('');
+    setDesc('');
+  }
+
+  useEffect(() => {
+    if(isEditMode) {
+      setTodo(currEditToDo.name as string);
+      setDesc(currEditToDo.description as string);
+    }
+  },[isEditMode, currEditToDo]);
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -60,7 +83,7 @@ function FunctionalBar () {
         name='name'
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
-        placeholder='I wanna buy...'
+        placeholder='Write your todo...'
         className='input-todo'
       />
       <input
@@ -82,7 +105,7 @@ function FunctionalBar () {
           disabled={!isEditMode}
         />
         <StyledButton
-          onClick={add}
+          onClick={clear}
           name='Cancel'
           disabled={!isEditMode}
         />
