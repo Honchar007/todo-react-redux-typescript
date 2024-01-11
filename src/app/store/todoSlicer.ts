@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // models
 import toDo from "../models/todo";
@@ -6,19 +6,19 @@ import toDo from "../models/todo";
 interface MainState {
   todos: toDo[],
   loading: Boolean,
+  edit: {
+    curr: toDo | {},
+    editMode: Boolean,
+  }
 }
 
 const initialState: MainState = {
-  todos: [
-    {
-      name: 'Fuck',
-      description: 'Fuck',
-      date: new Date().toISOString(),
-      id: 'asdasd',
-      checked: false,
-    }
-  ],
+  todos: [],
   loading: false,
+  edit: {
+    curr: {},
+    editMode: false,
+  }
 };
 
 export const fetchTodos = createAsyncThunk('fetch/todos', async () => {
@@ -41,7 +41,12 @@ export const removeTodo = createAsyncThunk('remove/todo', async (id: string) => 
 const todoSlicer = createSlice({
   name: 'todos',
   initialState,
-  reducers: {},
+  reducers: {
+    editModeOn(state, action: PayloadAction<toDo>) {
+      state.edit.editMode = true;
+      state.edit.curr = action.payload;
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
       state.todos = [...action.payload];
@@ -83,5 +88,6 @@ const todoSlicer = createSlice({
 
 export const selectTodos = (state: MainState) => state.todos;
 export const selectLoading = (state: MainState) => state.loading;
+export const { editModeOn } = todoSlicer.actions;
 
 export default todoSlicer.reducer;

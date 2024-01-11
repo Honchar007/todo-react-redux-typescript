@@ -8,8 +8,11 @@ import './TodoItem.scss';
 
 // assets
 import close from '../../assets/close.svg';
+import edit from '../../assets/edit.svg';
+
+
 import { useAppDispatch } from "../../store/hooks";
-import { removeTodo } from "../../store/todoSlicer";
+import { editModeOn, removeTodo } from "../../store/todoSlicer";
 
 function TodoItem ({ id, checked, name, description, date }: toDo) {
   const dispatch = useAppDispatch();
@@ -22,6 +25,10 @@ function TodoItem ({ id, checked, name, description, date }: toDo) {
   const handleRemove = (): void => {
     console.log('remove');
     dispatch(removeTodo(id as string))
+  }
+
+  const handleEdit = (): void => {
+    dispatch(editModeOn({ id, checked, name, description, date }));
   }
 
   return (
@@ -43,11 +50,19 @@ function TodoItem ({ id, checked, name, description, date }: toDo) {
           {new Date(date as string).toLocaleDateString()}
         </div>
       </div>
-      <div
-        onClick={handleRemove}
-        className="close"
-      >
-        <img src={close} alt="close" />
+      <div className="close">
+        <div
+          onClick={handleEdit}
+          className=""
+        >
+          <img src={edit} alt="edit" />
+        </div>
+        <div
+          onClick={handleRemove}
+          className=""
+        >
+          <img src={close} alt="close" />
+        </div>
       </div>
     </div>
   );
